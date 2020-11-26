@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Benutzerregistriegung</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <style>
+        .error {
+            color: red;
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="jumbotron">
+        <h1>Auto Sitzplan</h1>
+    </div>
+
+    <div id="theform">
+        <div class="row">
+            <div class="col-md-12">
+                <div>
+                    <input type="text" class="form-control" id="name" placeholder="Max Mustermann">
+                </div>
+                <button id="s1" type="button" class="btn btn-primary">OK</button>
+            </div>
+        </div>
+    </div>
+    <script>
+        var url_string = window.location.href
+        var url = new URL(url_string);
+        var sheet = url.searchParams.get("sheet");
+        var row = url.searchParams.get("row");
+        var col = url.searchParams.get("col");
+        $("#s1").click(function (e) {
+            if ($("#name").val() != "") {
+                obj = {
+                    name: $("#name").val(),
+                    excel: "worksheets('"+sheet+"')/cell(row="+row+",column="+col+")"
+                }
+                console.log('post:' + JSON.stringify(obj));
+                $.ajax({
+                    url: '/api/v1/',                    
+                    type: 'post',
+                    dataType: 'json',
+                    contentType: 'application/json',
+                    success: function (data) {
+                        console.log('data=' + JSON.stringify(data));
+                        $("#theform").addClass("hidden");
+                        $("#result").removeClass("hidden");
+                        $("#resultMsg").text(data.msg);
+                    },
+                    data: JSON.stringify(obj)
+                });
+            }
+        });
+    </script>
+
+</body>
+
+</html>

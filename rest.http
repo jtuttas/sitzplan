@@ -1,0 +1,49 @@
+### Test without User Interaction
+# Diesen Request im Browser öffnen
+GET https://login.microsoftonline.com/common/oauth2/v2.0/authorize?client_id={{client_id}}&response_type=code&redirect_uri=https://login.live.com/oauth20_desktop.srf&response_mode=query&scope=openid%20offline_access%20Files.ReadWrite.All%20user.read%20https%3A%2F%2Fgraph.microsoft.com%2Fmail.read&state=12345 HTTP/1.1
+
+### Code einlösen
+# Im Responce zum oberen Request gibt es einen Code, den als code eintragen
+POST https://login.microsoftonline.com/common/oauth2/v2.0/token HTTP/1.1
+Content-Type: application/x-www-form-urlencoded
+
+client_id={{client_id}}
+&scope=https%3A%2F%2Fgraph.microsoft.com%2Fmail.read
+&code={{code}}
+&redirect_uri=https://login.live.com/oauth20_desktop.srf
+&grant_type=authorization_code
+&client_secret={{client_secret}}
+
+### Refresh Token nutzen um access token zu aktualisieren
+
+POST https://login.microsoftonline.com/common/oauth2/v2.0/token HTTP/1.1
+Content-Type: application/x-www-form-urlencoded
+
+client_id={{client_id}}
+&scope=https%3A%2F%2Fgraph.microsoft.com%2Fmail.read
+&refresh_token={{refesh-token}}
+&redirect_uri=https://login.live.com/oauth20_desktop.srf
+&grant_type=refresh_token
+&client_secret={{client_secret}}
+
+### Drive ID ermitteln
+GET https://graph.microsoft.com/v1.0/me/drive HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+### Files im Root auslesen
+GET https://graph.microsoft.com/v1.0/me/drive/root/children HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+### List of Tables
+GET https://graph.microsoft.com/v1.0/me/drive/items/{{item_id}}/workbook/worksheets('Tabelle1')/tables HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+### Daten zur Tabelle Benutzer hinzufügen
+POST https://graph.microsoft.com/v1.0/me/drive/items/{{item_id}}/workbook/tables('3')/Rows HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{ "values": [ [ "123","Jan-15-2016:10:00:00", "Jan-15-2016:11:00:00", "test@test.de" ] ], "index": 0 }

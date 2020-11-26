@@ -1,0 +1,10 @@
+### Eintragen in die Tabelle
+# und UID generiert und EMail versendet an Benutzer
+POST http://localhost:3001/api/v1/ HTTP/1.1
+Content-Type: application/json
+
+{
+    "name": "Max Mustermann",
+    "excel": "worksheets('206')/cell(row=5,column=5)"
+}
+

@@ -1,0 +1,1 @@
+In Diesem Verzeichnis muss sich die Datei secrets.json befinden!
