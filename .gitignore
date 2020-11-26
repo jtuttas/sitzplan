@@ -2,11 +2,3 @@ node_modules/*
 config/secrets.json
 users.db
 .vscode/settings.json
-dist/*.js
-dist/*.js.map
-dist/controllers/*.js
-dist/controllers/*.js.map
-dist/models/*.js
-dist/models/*.js.map
-dist/utils/*.js
-dist/utils/*.js.map
