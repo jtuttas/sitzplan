@@ -1,5 +1,6 @@
 import { GraphSignin } from "./GraphSignin";
 import * as request from 'request';
+import { Result } from "../models/result";
 
 export class ExcelTool {
 
@@ -12,7 +13,7 @@ export class ExcelTool {
         this.itemId = itemid;
     }
 
-    public update(name: String, excel: String) {
+    public update(name: String, excel: String,success:(r:Result) => any,error:(err:Result) => any) {
         let obj: any =
         {
             "values": [[name]],
@@ -30,6 +31,18 @@ export class ExcelTool {
             },
             form: JSON.stringify(obj),
         }, (error, response, body) => {
+            let r:Result = new Result();
+            if (error) {
+                r.success=false;
+                r.statuscode=response.statusCode;
+                r.msg=response.body
+                console.log(body);
+                error(r);
+            }
+            r.statuscode=response.statusCode;
+            r.success=true;
+            r.msg="Added "+name;
+            success(r);
             console.log("add User status code:" + response.statusCode);
         });
 

@@ -10,16 +10,18 @@ import { Client as GraphClient } from "@microsoft/microsoft-graph-client";
 import * as userController from "./controllers/UserController";
 import * as webController from "./controllers/webController";
 import { ExcelTool } from './controllers/ExcelTool';
+import { secrets } from './secrets';
 
-console.log("starte..");
+console.log("starte...");
 
 
 /**
- * Azure
+ * Secreta einlesen
  */
 
-export const secrets = require("../config/secrets");
 
+let se:secrets = new secrets();
+console.log("Client ID=" + se.client_id);
 
 
 // production apps should import from "@microsoft/microsoft-graph-client"; to grab the NPM module with the types declarations
@@ -27,34 +29,36 @@ export const secrets = require("../config/secrets");
 // These are the types for graph nodes that are published separetlely (User field types, messages, contacts, etc.)
 // To reference Microsoft Graph types, see directions at https://github.com/microsoftgraph/msgraph-typescript-typings/
 // The dependency has been added in package.json, so just run npm install
-let login = new GraphSignin(secrets.refresh_token, secrets.client_id, secrets.client_secret);
-export let exel:ExcelTool = new ExcelTool(login,secrets.item_id,secrets.table_id);
-login.updateToken(token => {
-    console.log("got token!");
+let login = new GraphSignin(se.refresh_token, se.client_id, se.client_secret);
+export let exel: ExcelTool = new ExcelTool(login, se.item_id, se.table_id);
+function timeout() {
+    setTimeout(function () {
+        console.log("tick");
+        updateTokens();
+        timeout();
+    }, 1000 * 60 * 30);
+}
+timeout();
+updateTokens();
 
-    const client = GraphClient.init({
-        authProvider: function (done: any) {
-            done(null, token);
-        }
-    });
-    // Get the name of the authenticated user
-    client.api('/me')
-        //.select("givenName")
-        .get((err: any, user: MicrosoftGraph.User) => {
-            if (err) {
-                console.error(err);
-                return;
+function updateTokens() {
+    login.updateToken((token, refreshtoken) => {
+        console.log("got token!");
+        se.accessToken = token;
+        se.refresh_token = refreshtoken;
+        se.store();
+        const client = GraphClient.init({
+            authProvider: function (done: any) {
+                done(null, token);
             }
-
-            console.log("User Contect:"+JSON.stringify(user));
         });
-},
-    err => {
-        console.error(err);
-    }
+    },
+        err => {
+            console.error(err);
+        }
+    );
 
-);
-
+}
 
 /**
  * Create Express server.
@@ -91,13 +95,14 @@ app.set("port", process.env.PORT || 3001);
 app.route('/api/v1/');
 app.route('/api/v1/')
     .post(userController.setUser);
-app.get("/web/*",webController.getFile);
+app.get("/web/*", webController.getFile);
 
 app.listen(app.get("port"), () => {
     console.log(("  App is running at http://localhost:%d in %s mode"), app.get("port"), app.get("env"));
     console.log("  Press CTRL-C to stop\n");
-  
-    
+
+
 });
 
 module.exports = app;
+

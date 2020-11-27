@@ -9,37 +9,43 @@ var microsoft_graph_client_1 = require("@microsoft/microsoft-graph-client");
 var userController = require("./controllers/UserController");
 var webController = require("./controllers/webController");
 var ExcelTool_1 = require("./controllers/ExcelTool");
-console.log("starte..");
+var secrets_1 = require("./secrets");
+console.log("starte...");
 /**
- * Azure
+ * Secreta einlesen
  */
-exports.secrets = require("../config/secrets");
+var se = new secrets_1.secrets();
+console.log("Client ID=" + se.client_id);
 // production apps should import from "@microsoft/microsoft-graph-client"; to grab the NPM module with the types declarations
 // These are the types for graph nodes that are published separetlely (User field types, messages, contacts, etc.)
 // To reference Microsoft Graph types, see directions at https://github.com/microsoftgraph/msgraph-typescript-typings/
 // The dependency has been added in package.json, so just run npm install
-var login = new GraphSignin_1.GraphSignin(exports.secrets.refresh_token, exports.secrets.client_id, exports.secrets.client_secret);
-exports.exel = new ExcelTool_1.ExcelTool(login, exports.secrets.item_id, exports.secrets.table_id);
-login.updateToken(function (token) {
-    console.log("got token!");
-    var client = microsoft_graph_client_1.Client.init({
-        authProvider: function (done) {
-            done(null, token);
-        }
+var login = new GraphSignin_1.GraphSignin(se.refresh_token, se.client_id, se.client_secret);
+exports.exel = new ExcelTool_1.ExcelTool(login, se.item_id, se.table_id);
+function timeout() {
+    setTimeout(function () {
+        console.log("tick");
+        updateTokens();
+        timeout();
+    }, 1000 * 60 * 30);
+}
+timeout();
+updateTokens();
+function updateTokens() {
+    login.updateToken(function (token, refreshtoken) {
+        console.log("got token!");
+        se.accessToken = token;
+        se.refresh_token = refreshtoken;
+        se.store();
+        var client = microsoft_graph_client_1.Client.init({
+            authProvider: function (done) {
+                done(null, token);
+            }
+        });
+    }, function (err) {
+        console.error(err);
     });
-    // Get the name of the authenticated user
-    client.api('/me')
-        //.select("givenName")
-        .get(function (err, user) {
-        if (err) {
-            console.error(err);
-            return;
-        }
-        console.log("User Contect:" + JSON.stringify(user));
-    });
-}, function (err) {
-    console.error(err);
-});
+}
 /**
  * Create Express server.
  */

@@ -14,7 +14,7 @@ export class GraphSignin {
         this.client_sercret = clientSecret;
     }
 
-    public updateToken( success:(t:string) => any,error:(err:any) => any): void {
+    public updateToken( success:(t:string,rt:string) => any,error:(err:any) => any): void {
 
         let data: string = 'client_id=' + this.client_id +
             '&scope=https%3A%2F%2Fgraph.microsoft.com%2Fmail.read' +
@@ -35,8 +35,9 @@ export class GraphSignin {
                 let obj = JSON.parse(body);
                 this.token = obj.access_token;
                 this.refresh_token = obj.refresh_token;
-                console.log("update acces token to: "+this.token.substring(0,20)+"...");   
-                success(this.token);             
+                console.log("update access token to: "+this.token.substring(0,20)+"...");   
+                console.log("update refresh token to: "+this.refresh_token.substring(0,20)+"...");                   
+                success(this.token,this.refresh_token);             
             }
             else {
                 console.error(body);

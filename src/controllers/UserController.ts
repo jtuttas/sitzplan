@@ -7,11 +7,13 @@ import { exel } from "../app";
 export let setUser = (req: Request, res: Response) => {
   console.log("Post with Data!: " + JSON.stringify(req.body));
  
-  exel.update(req.body.name,req.body.excel);
-  let v: Result = new Result();
-  v.success = true;
-  v.msg = "Added " + req.body.name;
-  res.contentType('application/json');
-  res.send(JSON.stringify(v));
+  exel.update(req.body.name,req.body.excel,(r)=> {
+    res.contentType('application/json');
+    res.send(JSON.stringify(r));  
+  },(r)=> {
+    res.contentType('application/json');
+    res.send(JSON.stringify(r));      
+  }
+  );
 };
 

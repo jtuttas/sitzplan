@@ -27,8 +27,9 @@ var GraphSignin = /** @class */ (function () {
                 var obj = JSON.parse(body);
                 _this.token = obj.access_token;
                 _this.refresh_token = obj.refresh_token;
-                console.log("update acces token to: " + _this.token.substring(0, 20) + "...");
-                success(_this.token);
+                console.log("update access token to: " + _this.token.substring(0, 20) + "...");
+                console.log("update refresh token to: " + _this.refresh_token.substring(0, 20) + "...");
+                success(_this.token, _this.refresh_token);
             }
             else {
                 console.error(body);

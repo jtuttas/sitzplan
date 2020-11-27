@@ -1,13 +1,14 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var request = require("request");
+var result_1 = require("../models/result");
 var ExcelTool = /** @class */ (function () {
     function ExcelTool(s, itemid, tableid) {
         this.signin = s;
         this.tableId = tableid;
         this.itemId = itemid;
     }
-    ExcelTool.prototype.update = function (name, excel) {
+    ExcelTool.prototype.update = function (name, excel, success, error) {
         var obj = {
             "values": [[name]],
             "valueTypes": [["String"]]
@@ -23,6 +24,18 @@ var ExcelTool = /** @class */ (function () {
             },
             form: JSON.stringify(obj),
         }, function (error, response, body) {
+            var r = new result_1.Result();
+            if (error) {
+                r.success = false;
+                r.statuscode = response.statusCode;
+                r.msg = response.body;
+                console.log(body);
+                error(r);
+            }
+            r.statuscode = response.statusCode;
+            r.success = true;
+            r.msg = "Added " + name;
+            success(r);
             console.log("add User status code:" + response.statusCode);
         });
     };
