@@ -23,7 +23,7 @@
 <body>
     <div class="jumbotron">
         <h1>Auto Sitzplan</h1>
-        <p>V0.1</p>
+        <p>V0.11</p>
     </div>
 
     <div id="theform">
@@ -36,34 +36,53 @@
             </div>
         </div>
     </div>
+    <div id="result" class="hidden">
+        <div class="row">
+            <div class="col-md-12">
+                <h1 id="msg" class="error"></h1>
+            </div>
+        </div>
+    </div>
     <script>
         var url_string = window.location.href
         var url = new URL(url_string);
         var sheet = url.searchParams.get("sheet");
         var row = url.searchParams.get("row");
         var col = url.searchParams.get("col");
-        $("#s1").click(function (e) {
-            if ($("#name").val() != "") {
-                obj = {
-                    name: $("#name").val(),
-                    excel: "worksheets('"+sheet+"')/cell(row="+row+",column="+col+")"
+        if (sheet == undefined || row == undefined || col == undefined) {
+            $("#theform").addClass("hidden");
+            $("#result").removeClass("hidden");
+            $("#msg").text("Invalid or missing Parameter");
+        }
+        else {
+            $("#s1").click(function (e) {
+                $("#s1").prop("disabled",true);
+                if ($("#name").val() != "") {
+                    obj = {
+                        name: $("#name").val(),
+                        excel: "worksheets('" + sheet + "')/cell(row=" + row + ",column=" + col + ")"
+                    }
+                    console.log('post:' + JSON.stringify(obj));
+                    $.ajax({
+                        url: '/api/v1/',
+                        type: 'post',
+                        dataType: 'json',
+                        contentType: 'application/json',
+                        success: function (data) {
+                            console.log('data=' + JSON.stringify(data));
+                            $("#theform").addClass("hidden");
+                            $("#result").removeClass("hidden");
+                            $("#msg").text(data.msg);
+                            if (data.success==true) {
+                                window.location.replace('web/thanks.html');
+                                //window.location = "web/thanks.html";
+                            }
+                        },
+                        data: JSON.stringify(obj)
+                    });
                 }
-                console.log('post:' + JSON.stringify(obj));
-                $.ajax({
-                    url: '/api/v1/',                    
-                    type: 'post',
-                    dataType: 'json',
-                    contentType: 'application/json',
-                    success: function (data) {
-                        console.log('data=' + JSON.stringify(data));
-                        $("#theform").addClass("hidden");
-                        $("#result").removeClass("hidden");
-                        $("#resultMsg").text(data.msg);
-                    },
-                    data: JSON.stringify(obj)
-                });
-            }
-        });
+            });
+        }
     </script>
 
 </body>
