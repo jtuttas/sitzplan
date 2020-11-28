@@ -21,6 +21,10 @@ Die Konfiguration findet über die Datei *secrets.json* statt. Diese Datei muss 
     "table_id": "id der Tabelle in der Arbeitsmappe",
 }
 ```
+Das notwendig Schüssel kann wir folgt erzeugt werden:
+```
+openssl genrsa -out rsa.private 1024
+```
 
 ## Start des Servers
 Sind die Daten in der Datei *secrets.json* eingetragen kann der Server gestartet werden:
@@ -37,7 +41,7 @@ Die Parameter haben folgende Funktion:
 
 Aus diesen Daten kann ein QR Code erzeugt werden.
 
-![QRCode](qrcode.png)
+![QRCode](206_a.jpg)
 
 ## Docker Container
 Die Anwendung existiert auch als Docker Container, um diesen zu starten folgenden Befehl ausführen:
