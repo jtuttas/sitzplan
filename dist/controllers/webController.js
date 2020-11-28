@@ -2,17 +2,14 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 var fs = require("fs");
 exports.getFile = function (req, res) {
-    var file = req.originalUrl.substring(req.originalUrl.lastIndexOf("/") + 1);
-    if (file.indexOf("?") != -1) {
-        file = file.substring(0, file.indexOf("?"));
-    }
-    if (file == "") {
-        file = "index.html";
+    console.log("URL:" + req.url);
+    var file = req.url;
+    if (req.url.indexOf("?") != -1) {
+        file = req.url.substring(0, req.url.indexOf("?"));
     }
     console.log("File=" + file);
-    console.log("sheet=" + req.query.sheet);
     res.contentType('text/html');
-    fs.readFile("./web/" + file, function (err, data) {
+    fs.readFile("." + file, function (err, data) {
         if (err) {
             res.statusCode = 404;
             res.send("File " + file + " not found!");

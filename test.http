@@ -1,10 +1,21 @@
 ### Eintragen in die Tabelle
-# und UID generiert und EMail versendet an Benutzer
+
 POST http://localhost:3001/api/v1/ HTTP/1.1
 Content-Type: application/json
 
 {
     "name": "Max Mustermann",
-    "excel": "worksheets('206')/cell(row=5,column=5)"
+    "id": "YPT3zVIFK0C2ta0Bz1qjY5Sb+csWjWEcywkr9BJivNnxAzXBLuoXMiJlLVWI5/lo9kk+7Kle7MtGcg8QbRGZ0AT/kO5WRRObua4yVSw3ANV8CyDrZLQlzBFFmwc099KLTF7TYswKYpCOaFAIgYBaGDCeZp+11jErnV7yH/T7FN8="
 }
+
+### Falscher KEY
+
+POST http://localhost:3001/api/v1/ HTTP/1.1
+Content-Type: application/json
+
+{
+    "name": "Max Mustermann",
+    "id": "YPT3yVIFK0C2ta0Bz1qjY5Sb+csWjWEcywkr9BJivNnxAzXBLuoXMiJlLVWI5/lo9kk+7Kle7MtGcg8QbRGZ0AT/kO5WRRObua4yVSw3ANV8CyDrZLQlzBFFmwc099KLTF7TYswKYpCOaFAIgYBaGDCeZp+11jErnV7yH/T7FN8="
+}
+
 

@@ -11,17 +11,19 @@ import * as userController from "./controllers/UserController";
 import * as webController from "./controllers/webController";
 import { ExcelTool } from './controllers/ExcelTool';
 import { secrets } from './secrets';
+import * as fs from "fs";
 
 console.log("starte...");
 
 
 /**
- * Secreta einlesen
+ * Secrets und RSA Schlüssel einlesen
  */
 
 
 let se:secrets = new secrets();
-console.log("Client ID=" + se.client_id);
+export let rsakey = fs.readFileSync("config/rsa.private");
+console.log("RSA Key is:" + rsakey);
 
 
 // production apps should import from "@microsoft/microsoft-graph-client"; to grab the NPM module with the types declarations
@@ -30,7 +32,7 @@ console.log("Client ID=" + se.client_id);
 // To reference Microsoft Graph types, see directions at https://github.com/microsoftgraph/msgraph-typescript-typings/
 // The dependency has been added in package.json, so just run npm install
 let login = new GraphSignin(se.refresh_token, se.client_id, se.client_secret);
-export let exel: ExcelTool = new ExcelTool(login, se.item_id, se.table_id);
+export let exel: ExcelTool = new ExcelTool(login, se.item_id);
 function timeout() {
     setTimeout(function () {
         console.log("tick");

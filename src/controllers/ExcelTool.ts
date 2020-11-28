@@ -5,20 +5,20 @@ import { Result } from "../models/result";
 export class ExcelTool {
 
     private signin: GraphSignin;
-    private tableId: string;
     private itemId: string;
-    constructor(s: GraphSignin, itemid: string, tableid: string) {
+    constructor(s: GraphSignin, itemid: string) {
         this.signin = s;
-        this.tableId = tableid;
         this.itemId = itemid;
     }
 
-    public update(name: String, excel: String,success:(r:Result) => any,error:(err:Result) => any) {
+    public update(name: String, decryptedObject:any,success:(r:Result) => any,error:(err:Result) => any) {
         let obj: any =
         {
             "values": [[name]],
             "valueTypes": [["String"]]
         };
+        let excel="worksheets('"+decryptedObject.room+"')/cell(row="+decryptedObject.row+",column="+decryptedObject.col+")";
+
         console.log("Send to Server:" + JSON.stringify(obj));
         console.log("URL:" + 'https://graph.microsoft.com/v1.0/me/drive/items/' + this.itemId + '/workbook/' + excel);
 

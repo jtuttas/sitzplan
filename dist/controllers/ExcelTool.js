@@ -3,16 +3,16 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var request = require("request");
 var result_1 = require("../models/result");
 var ExcelTool = /** @class */ (function () {
-    function ExcelTool(s, itemid, tableid) {
+    function ExcelTool(s, itemid) {
         this.signin = s;
-        this.tableId = tableid;
         this.itemId = itemid;
     }
-    ExcelTool.prototype.update = function (name, excel, success, error) {
+    ExcelTool.prototype.update = function (name, decryptedObject, success, error) {
         var obj = {
             "values": [[name]],
             "valueTypes": [["String"]]
         };
+        var excel = "worksheets('" + decryptedObject.room + "')/cell(row=" + decryptedObject.row + ",column=" + decryptedObject.col + ")";
         console.log("Send to Server:" + JSON.stringify(obj));
         console.log("URL:" + 'https://graph.microsoft.com/v1.0/me/drive/items/' + this.itemId + '/workbook/' + excel);
         request({

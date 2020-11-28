@@ -9,7 +9,6 @@ var secrets = /** @class */ (function () {
         this.client_id = se.client_id;
         this.client_secret = se.client_secret;
         this.item_id = se.item_id;
-        this.table_id = se.table_id;
     }
     secrets.prototype.store = function () {
         var data = JSON.stringify(this);

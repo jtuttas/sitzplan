@@ -7,7 +7,7 @@ export class secrets {
     client_id:string;
     client_secret:string;
     item_id:string;
-    table_id:string;
+
 
     constructor() {
         const se: secrets = require("../config/secrets");
@@ -16,7 +16,7 @@ export class secrets {
         this.client_id=se.client_id;
         this.client_secret=se.client_secret;
         this.item_id=se.item_id;
-        this.table_id=se.table_id;
+
     }
 
     public store() {

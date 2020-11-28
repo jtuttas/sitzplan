@@ -23,7 +23,7 @@
 <body>
     <div class="jumbotron">
         <h1>Auto Sitzplan</h1>
-        <p>V0.12</p>
+        <p>V0.2</p>
     </div>
 
     <div id="theform">
@@ -46,21 +46,20 @@
     <script>
         var url_string = window.location.href
         var url = new URL(url_string);
-        var sheet = url.searchParams.get("sheet");
-        var row = url.searchParams.get("row");
-        var col = url.searchParams.get("col");
-        if (sheet == undefined || row == undefined || col == undefined) {
+        var id = url.searchParams.get("id");
+        if (id == undefined) {
             $("#theform").addClass("hidden");
             $("#result").removeClass("hidden");
-            $("#msg").text("Invalid or missing Parameter");
+            $("#msg").text("missing id Parameter");
         }
         else {
+            console.log('ID='+id);
             $("#s1").click(function (e) {
                 $("#s1").prop("disabled",true);
                 if ($("#name").val() != "") {
                     obj = {
                         name: $("#name").val(),
-                        excel: "worksheets('" + sheet + "')/cell(row=" + row + ",column=" + col + ")"
+                        id: id
                     }
                     console.log('post:' + JSON.stringify(obj));
                     $.ajax({
@@ -74,7 +73,7 @@
                             $("#result").removeClass("hidden");
                             $("#msg").text(data.msg);
                             if (data.success==true) {
-                                window.location.replace('web/thanks.html');
+                                window.location.replace('/web/thanks.html');
                                 //window.location = "web/thanks.html";
                             }
                         },

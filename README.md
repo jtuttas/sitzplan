@@ -17,11 +17,10 @@ Die Konfiguration findet über die Datei *secrets.json* statt. Diese Datei muss 
     "refresh_token": "refresh Token f. Office 365 (wird benötigt um ein neues accessToken anzufordern",
     "client_id": "ID der Office 365 Client Anwendung",
     "client_secret": "Kennwort der Anwendung",
-    "item_id": "ID der Office 365 Excel Arbeitsmappe",
-    "table_id": "id der Tabelle in der Arbeitsmappe",
+    "item_id": "ID der Office 365 Excel Arbeitsmappe"
 }
 ```
-Das notwendig Schüssel kann wir folgt erzeugt werden:
+Das notwendig Schüssel kann wir folgt erzeugt werden und muss sich ebenfalls im /config Verzeichnis befinden!
 ```
 openssl genrsa -out rsa.private 1024
 ```
@@ -32,14 +31,7 @@ Sind die Daten in der Datei *secrets.json* eingetragen kann der Server gestartet
 node dist/app.js
 ```
 
-Anschließend kann der Server über folgende URL aufgerufen werden *http://localhost:3001/web/?sheet=206&row=5&col=2* und es sollte folgende Seite erscheinen.
-
-Die Parameter haben folgende Funktion:
-- sheet: Bezeichnung der Registerkarte in der Excel Tabelle
-- row: Zeile in der Tabelle
-- col: Spalte in der Tabelle
-
-Aus diesen Daten kann ein QR Code erzeugt werden.
+Anschließend kann der Server über folgende URL aufgerufen werden *http://localhost:3001/web/?id=YPT3zVIFK0C2ta0Bz1qjY5Sb%2BcsWjWEcywkr9BJivNnxAzXBLuoXMiJlLVWI5%2Flo9kk%2B7Kle7MtGcg8QbRGZ0AT%2FkO5WRRObua4yVSw3ANV8CyDrZLQlzBFFmwc099KLTF7TYswKYpCOaFAIgYBaGDCeZp%2B11jErnV7yH%2FT7FN8%3D* und es sollte folgende Seite erscheinen.
 
 ![QRCode](206_a.jpg)
 
