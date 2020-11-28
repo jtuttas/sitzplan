@@ -63,4 +63,4 @@ Die Anwendung existiert auch als Docker Container, um diesen zu starten folgende
 docker run --rm -v c:/config:/usr/src/app/config -it -p 3001:3001 service.joerg-tuttas.de:5555/root/sitzplan
 ```
 
-Dabei muss im geteilten Verzeichnis *config* sich die Datei *secrets.json* befinden (im oberen Beispiel also unter d:/Temp2020/config).
+Dabei muss im geteilten Verzeichnis *config* sich die Datei *secrets.json* befinden (im oberen Beispiel also unter c:/config).
