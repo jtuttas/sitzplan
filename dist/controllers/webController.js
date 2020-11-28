@@ -7,6 +7,9 @@ exports.getFile = function (req, res) {
     if (req.url.indexOf("?") != -1) {
         file = req.url.substring(0, req.url.indexOf("?"));
     }
+    if (file == "/web/") {
+        file = "/web/index.html";
+    }
     console.log("File=" + file);
     res.contentType('text/html');
     fs.readFile("." + file, function (err, data) {
