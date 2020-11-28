@@ -25,7 +25,8 @@ foreach ($row in $excel) {
             $endcrypt = $rsa.Encrypt($data1,$true)
             $encString=[System.Convert]::ToBase64String($endcrypt)
             Write-Host "RSA Encrypted: $encString"
-
+            $encString=[uri]::EscapeDataString($encString)
+            Write-Host "RSA Encrypted URL Encoded: $encString"
             $url="http://130.61.61.100:8080/web/?id=$encString"
             $url=[uri]::EscapeDataString($url)
             Write-Host "Get QR Code for $url"

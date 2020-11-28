@@ -66,7 +66,8 @@ app.use(bodyParser.urlencoded({
     extended: true
 }));
 app.use(express.json()); // to support JSON-encoded bodies
-app.use(express.urlencoded()); // to support URL-encoded bodies
+//app.use(express.urlencoded()); // to support URL-encoded bodies
+app.use(express.urlencoded({ extended: true }));
 app.use(allowCrossDomain);
 /**
  * Express configuration.

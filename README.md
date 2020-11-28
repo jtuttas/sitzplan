@@ -33,6 +33,28 @@ node dist/app.js
 
 Anschließend kann der Server über folgende URL aufgerufen werden *http://localhost:3001/web/?id=YPT3zVIFK0C2ta0Bz1qjY5Sb%2BcsWjWEcywkr9BJivNnxAzXBLuoXMiJlLVWI5%2Flo9kk%2B7Kle7MtGcg8QbRGZ0AT%2FkO5WRRObua4yVSw3ANV8CyDrZLQlzBFFmwc099KLTF7TYswKYpCOaFAIgYBaGDCeZp%2B11jErnV7yH%2FT7FN8%3D* und es sollte folgende Seite erscheinen.
 
+![screenshot](Screenshot.png)
+
+Im Parameter id ist ein URL codierter RSA Schlüssel enthalten, der ein JSON beinhaltet mit folgender Struktur.
+```json
+{
+    "room":"206",
+    "row":5,
+    "col":1
+}
+```
+
+## Erzeugen der QR Codes
+Die QR Codes können automatisch erzeugt werden mittels des Powershell Skriptes *genqrCodes.ps1*. Das Skript fragt nach einem Reiter in der EXCEL Tabelle und nach dem Pfad zu der Excel Tabelle. 
+
+Die Exceltabelle muss dabei entsprechend vorbereitet werden. So muss in den Zellen für die der QR Code erzeugt wird ein Zeichen stehen.
+
+![Excel](excel1.png)
+
+Anschließend werden die QR Codes erzeugt und zwar in folgendem Format **{Name des Reiters}_{Zeichen in der Zelle}.jpg**. Bezogen auf das obige Beispiel würden also 3 Dateien erzeugt mit den Namen 206_a.jpg, 206_b.jpg und 206_c.jpg.
+
+Abgebildet ist hier der QR Code **206_a.jpg**.
+
 ![QRCode](206_a.jpg)
 
 ## Docker Container
