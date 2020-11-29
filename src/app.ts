@@ -21,7 +21,7 @@ console.log("starte...");
  */
 
 
-let se:secrets = new secrets();
+let se: secrets = new secrets();
 export let rsakey = fs.readFileSync("config/rsa.private");
 console.log("RSA Key is:" + rsakey);
 
@@ -81,9 +81,10 @@ app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
     extended: true
 }));
 app.use(express.json());       // to support JSON-encoded bodies
-//app.use(express.urlencoded()); // to support URL-encoded bodies
 app.use(express.urlencoded({ extended: true }))
 app.use(allowCrossDomain);
+app.use('*/web',express.static('static'));
+
 /**
  * Express configuration.
  */
@@ -98,13 +99,11 @@ app.set("port", process.env.PORT || 3001);
 app.route('/api/v1/');
 app.route('/api/v1/')
     .post(userController.setUser);
-app.get("/web/*", webController.getFile);
+//app.get("/web/*", webController.getFile);
 
 app.listen(app.get("port"), () => {
     console.log(("  App is running at http://localhost:%d in %s mode"), app.get("port"), app.get("env"));
     console.log("  Press CTRL-C to stop\n");
-
-
 });
 
 module.exports = app;

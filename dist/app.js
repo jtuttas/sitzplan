@@ -7,7 +7,6 @@ var microsoft_graph_client_1 = require("@microsoft/microsoft-graph-client");
  * Controllers (route handlers).
  */
 var userController = require("./controllers/UserController");
-var webController = require("./controllers/webController");
 var ExcelTool_1 = require("./controllers/ExcelTool");
 var secrets_1 = require("./secrets");
 var fs = require("fs");
@@ -66,9 +65,9 @@ app.use(bodyParser.urlencoded({
     extended: true
 }));
 app.use(express.json()); // to support JSON-encoded bodies
-//app.use(express.urlencoded()); // to support URL-encoded bodies
 app.use(express.urlencoded({ extended: true }));
 app.use(allowCrossDomain);
+app.use('*/web', express.static('static'));
 /**
  * Express configuration.
  */
@@ -79,7 +78,7 @@ app.set("port", process.env.PORT || 3001);
 app.route('/api/v1/');
 app.route('/api/v1/')
     .post(userController.setUser);
-app.get("/web/*", webController.getFile);
+//app.get("/web/*", webController.getFile);
 app.listen(app.get("port"), function () {
     console.log(("  App is running at http://localhost:%d in %s mode"), app.get("port"), app.get("env"));
     console.log("  Press CTRL-C to stop\n");
