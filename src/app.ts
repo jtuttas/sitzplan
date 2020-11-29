@@ -8,7 +8,6 @@ import { Client as GraphClient } from "@microsoft/microsoft-graph-client";
  * Controllers (route handlers).
  */
 import * as userController from "./controllers/UserController";
-import * as webController from "./controllers/webController";
 import { ExcelTool } from './controllers/ExcelTool';
 import { secrets } from './secrets';
 import * as fs from "fs";
