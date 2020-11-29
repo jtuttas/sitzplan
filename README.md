@@ -31,9 +31,13 @@ Sind die Daten in der Datei *secrets.json* eingetragen kann der Server gestartet
 node dist/app.js
 ```
 
-Anschließend kann der Server über folgende URL aufgerufen werden *http://localhost:3001/web/?id=YPT3zVIFK0C2ta0Bz1qjY5Sb%2BcsWjWEcywkr9BJivNnxAzXBLuoXMiJlLVWI5%2Flo9kk%2B7Kle7MtGcg8QbRGZ0AT%2FkO5WRRObua4yVSw3ANV8CyDrZLQlzBFFmwc099KLTF7TYswKYpCOaFAIgYBaGDCeZp%2B11jErnV7yH%2FT7FN8%3D* und es sollte folgende Seite erscheinen.
+Anschließend kann der Server über folgende URL aufgerufen werden *http://localhost:3001/web/?id=YPT3zVIFK0C2ta0Bz1qjY5Sb%2BcsWjWEcywkr9BJivNnxAzXBLuoXMiJlLVWI5%2Flo9kk%2B7Kle7MtGcg8QbRGZ0AT%2FkO5WRRObua4yVSw3ANV8CyDrZLQlzBFFmwc099KLTF7TYswKYpCOaFAIgYBaGDCeZp%2B11jErnV7yH%2FT7FN8%3D&room=206* und es sollte folgende Seite erscheinen.
 
 ![screenshot](Screenshot.png)
+
+**Parameter:**
+- id (*notwendig*): Das RSA und URL encodete JSON (s.u), welches die Position in der Tabelle definiert
+- room (*optional*): Bezeichnung des Raumes zur Darstellung auf der Webseite 
 
 Im Parameter id ist ein URL codierter RSA Schlüssel enthalten, der ein JSON beinhaltet mit folgender Struktur.
 ```json
@@ -45,7 +49,13 @@ Im Parameter id ist ein URL codierter RSA Schlüssel enthalten, der ein JSON bei
 ```
 
 ## Erzeugen der QR Codes
-Die QR Codes können automatisch erzeugt werden mittels des Powershell Skriptes *genqrCodes.ps1*. Das Skript fragt nach einem Reiter in der EXCEL Tabelle und nach dem Pfad zu der Excel Tabelle. 
+Die QR Codes können automatisch erzeugt werden mittels des Powershell Skriptes *genqrCodes.ps1*. Hierzu ist es notwendig, dass das Modul **ImportExcel** installiert ist. Das Modul findet sich [hier](https://www.powershellgallery.com/packages/ImportExcel/7.1.1) und kann mit folgendem Powershell Befehl installiert werden.
+
+```ps
+Install-Module -Name ImportExcel
+```
+
+Das Skript fragt nach einem Reiter in der EXCEL Tabelle und nach dem Pfad zu der Excel Tabelle. 
 
 Die Exceltabelle muss dabei entsprechend vorbereitet werden. So muss in den Zellen für die der QR Code erzeugt wird ein Zeichen stehen.
 

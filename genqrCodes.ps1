@@ -27,7 +27,7 @@ foreach ($row in $excel) {
             Write-Host "RSA Encrypted: $encString"
             $encString=[uri]::EscapeDataString($encString)
             Write-Host "RSA Encrypted URL Encoded: $encString"
-            $url="http://130.61.61.100:8080/web/?id=$encString"
+            $url="http://130.61.61.100:8080/web/?id=$encString&room=$worksheet"
             $url=[uri]::EscapeDataString($url)
             Write-Host "Get QR Code for $url"
             Invoke-WebRequest -Uri "https://chart.googleapis.com/chart?chs=300x300&cht=qr&chl=$url"  -OutFile $filename
