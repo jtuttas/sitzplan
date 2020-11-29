@@ -31,6 +31,8 @@ foreach ($row in $excel) {
             $url=[uri]::EscapeDataString($url)
             Write-Host "Get QR Code for $url"
             Invoke-WebRequest -Uri "https://chart.googleapis.com/chart?chs=300x300&cht=qr&chl=$url"  -OutFile $filename
+            # Wenn die QR Code gleich ausgedruckt werden sollen den Kommentar in der unteren Zeile löschen
+            #get-childitem $filename | ForEach-Object {Start-Process -FilePath $_.FullName -Verb Print}    
         }
         $colCounter++
     }
