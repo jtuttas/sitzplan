@@ -29,10 +29,6 @@ body {
     background-color: #fff;
 }
 
-.statusMsg {
-     text-align: center;
-}
-
 .form-signin {
     width: 90%;
     padding: 15px;

@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="Sitzplatzzuordnung an der MMBbS">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Sitzplatzzuordnung</title>
+    <title>Sitzplatzzuordnung MMBbS Hannover</title>
     <!-- Favicons-->
     <link rel="apple-touch-icon" sizes="57x57" href="img/apple-icon-57x57.png">
     <link rel="apple-touch-icon" sizes="60x60" href="img/apple-icon-60x60.png">
@@ -23,7 +23,6 @@
     <link rel="icon" type="image/png" sizes="32x32" href="img/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="96x96" href="img/favicon-96x96.png">
     <link rel="icon" type="image/png" sizes="16x16" href="img/favicon-16x16.png">
-    <link rel="manifest" href="img/manifest.json">
     <meta name="msapplication-TileColor" content="#ffffff">
     <meta name="msapplication-TileImage" content="img/ms-icon-144x144.png">
     <meta name="theme-color" content="#ffffff">
@@ -64,17 +63,17 @@
                             <input id="c1" type="checkbox" value="remember-me"> Name merken
                         </label>
                     </div>
-                    <button id="s1" class="btn btn-block btn-lg btn-primary"><span></span>Absenden</button>
+                    <button id="s1" class="btn btn-block btn-lg btn-primary"><span></span>Absenden</button>        
                 </form>
             </article>
+            <div id="successMsg" class="d-flex justify-content-center"></div>
         </section>
-        <div id="statusMsg"></div>
+        <div id="errorMsg" class="d-flex justify-content-center"></div>
         <footer>
             <p class="mt-3 text-muted">&copy; 2020 MMBbS Hannover</p>
         </footer>
     </div>
 </body>
-
 
 <script>
     var url_string = window.location.href;
@@ -82,8 +81,7 @@
     var id = url.searchParams.get("id");
     if (id == undefined) {
         $("#formArea").addClass("hidden");
-        $("#statusMsg").show();
-        $("#statusMsg").text("Missing id Parameter").addClass("error");
+        $("#errorMsg").show().text("Missing id Parameter").addClass("error");
     }
     else {
         console.log('ID=' + id);
@@ -109,8 +107,8 @@
                         $("#result").removeClass("hidden");
                         $("#msg").text(data.msg);
                         if (data.success == true) {
-                            $("#s1").fadeOut("slow", function () {
-                                $("#statusMsg").text('Sitzplatz erfolgreich eingetragen!').addClass("success");
+                            $("#formArea article").fadeOut("slow", function () {
+                                $("#successMsg").html('<svg class="checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52"><circle class="checkmark__circle" cx="26" cy="26" r="25" fill="none" /><path class="checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8" /></svg>').addClass("success");
                             });
                             //window.location.replace('/web/thanks.html');
                             //window.location = "web/thanks.html";
