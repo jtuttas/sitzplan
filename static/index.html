@@ -57,10 +57,10 @@
                     <label for="inputName" class="sr-only">Name</label>
                     <input type="name" id="inputName" class="form-control" placeholder="Vorname Nachname" aria-describedby="inputNameFeedback" required
                         autofocus>
-                        <div id="inputNameFeedback" class="invalid-feedback mb-2">
+                        <div id="inputNameFeedback" class="invalid-feedback mb-1">
                             Bitte Vor- und Nachname eingeben!
                         </div>
-                    <div class="checkbox mt-2 mb-2">
+                    <div class="checkbox mb-2">
                         <label>
                             <input id="c1" type="checkbox" value="true"> Name merken
                         </label>
@@ -70,22 +70,21 @@
             </article>
             <div id="successSign" class="d-flex justify-content-center"></div>
         </section>
-        <div id="Msg" class="d-flex justify-content-center"></div>
+        <div id="Msg" class="mt-3 d-flex justify-content-center">Fehler</div>
         <footer>
             <p class="mt-3 text-muted">&copy; 2020 MMBbS Hannover</p>
         </footer>
     </div>
 </body>
 
-<script> 
-    
+<script>   
     let url_string = window.location.href;
     let url = new URL(url_string);
     let id = url.searchParams.get("id");
     let room = url.searchParams.get("room");
     if (id == undefined || id == "" || room == undefined || room == "") {
         $("#formArea").addClass("hidden");
-        $("#Msg").show().text("Missing Parameter").addClass("error");
+        $("#Msg").css("visibility","visible").text("Missing Parameter").addClass("error");
     }
     else {
         console.log('ID=' + id);
@@ -101,11 +100,11 @@
         $("#inputName").bind("focusout keyup", function() {
             if($("#inputName").val() == "") {
                 $(this).addClass("is-invalid").focus();
-                $("#inputNameFeedback").show();
+                $("#inputNameFeedback").css("visibility","visible");
                 $("#s1").prop("disabled", true);
             } else {
                 $(this).removeClass("is-invalid");
-                $("#inputNameFeedback").fadeOut("fast");
+                $("#inputNameFeedback").css("visibility","hidden");
                 $("#s1").prop("disabled", false);
             }
         });
@@ -139,13 +138,13 @@
                             $("#formArea article").fadeOut("slow", function () {
                                 $("#successSign").html('<svg class="checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52"><circle class="checkmark__circle" cx="26" cy="26" r="25" fill="none" /><path class="checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8" /></svg>').addClass("success");
                             });
-                            $("#Msg").text(data.msg).addClass("success");
+                            $("#Msg").css("visibility","visible").text(data.msg).addClass("success");
                         } else {
                             $("#s1").prop("disabled", false);
                             $("#inputName").prop("disabled", false);
                             $("#c1").prop("disabled", false);
                             $("#s1").text("Absenden");
-                            $("#Msg").text(data.msg).addClass("error");
+                            $("#Msg").css("visibility","visible").text(data.msg).addClass("error");
                         }
                     },
                     error: function (xhr, ajaxOptions, thrownError) {
@@ -153,14 +152,14 @@
                         $("#inputName").prop("disabled", false);
                         $("#c1").prop("disabled", false);
                         $("#s1").text("Absenden");
-                        $("#Msg").show().text("Eintrag leider fehlgeschlagen").addClass('error');
+                        $("#Msg").css("visibility","visible").text("Eintrag leider fehlgeschlagen").addClass('error');
                         console.log(xhr.status);
                         console.log(thrownError);
                     }
                 });
             } else {
                 $("#inputName").addClass("is-invalid").focus();
-                $("#inputNameFeedback").show();
+                $("#inputNameFeedback").css("visibility","visible");
 
             } 
         });

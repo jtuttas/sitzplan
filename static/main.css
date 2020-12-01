@@ -74,7 +74,12 @@ body {
 }
 
 #inputNameFeedback {
-     display: none;
+     visibility: hidden;
+     display: block;
+}
+
+#Msg {
+     visibility: hidden;
 }
 
 @media (min-width: 576px) {
