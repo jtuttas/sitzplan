@@ -89,11 +89,13 @@
     }
     else {
         console.log('ID=' + id);
-        $("#s1").prop("disabled", true);
         $("#room").text(room);
-        
+
         /* Cookie auslesen */
         $("#inputName").val(Cookies.get('name'));
+        if($("#inputName").val() == "") {
+            $("#s1").prop("disabled", true);
+        }
 
         /* Hinweis bei ausbleibender Eingabe */
         $("#inputName").bind("focusout keyup", function() {
