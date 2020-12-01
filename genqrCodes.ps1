@@ -30,7 +30,8 @@ foreach ($row in $excel) {
             $url="http://130.61.61.100:8080/web/?id=$encString&room=$worksheet"
             $url=[uri]::EscapeDataString($url)
             Write-Host "Get QR Code for $url"
-            Invoke-WebRequest -Uri "https://chart.googleapis.com/chart?chs=300x300&cht=qr&chl=$url"  -OutFile $filename
+            #Invoke-WebRequest -Uri "https://chart.googleapis.com/chart?chs=300x300&cht=qr&chl=$url"  -OutFile $filename
+            Invoke-WebRequest -uri "https://qrickit.com/api/qr.php?d=$url&addtext=$filename&qrsize=300&t=p&e=m"  -OutFile $filename
             # Wenn die QR Code gleich ausgedruckt werden sollen den Kommentar in der unteren Zeile löschen
             #get-childitem $filename | ForEach-Object {Start-Process -FilePath $_.FullName -Verb Print}    
         }
