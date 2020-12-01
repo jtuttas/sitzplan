@@ -34,10 +34,8 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx"
         crossorigin="anonymous"></script>
-    <script src="main.js"></script>
-
+    <script src="https://cdn.jsdelivr.net/npm/js-cookie@rc/dist/js.cookie.min.js"></script>
 </head>
-
 <body class="text-center">
     <div class="form-signin bg-white rounded">
         <header>
@@ -57,14 +55,17 @@
             <article>
                 <form id="input-form" class="form-signin">
                     <label for="inputName" class="sr-only">Name</label>
-                    <input type="name" id="inputName" class="form-control mb-2" placeholder="Vorname Nachname" required
+                    <input type="name" id="inputName" class="form-control" placeholder="Vorname Nachname" aria-describedby="inputNameFeedback" required
                         autofocus>
-                    <div class="checkbox mb-3">
+                        <div id="inputNameFeedback" class="invalid-feedback mb-2">
+                            Bitte Vor- und Nachname eingeben!
+                        </div>
+                    <div class="checkbox mt-2 mb-2">
                         <label>
                             <input id="c1" type="checkbox" value="true"> Name merken
                         </label>
                     </div>
-                    <button id="s1" class="btn btn-block btn-lg btn-primary"><span></span>Absenden</button>        
+                    <button id="s1" class="btn btn-block btn-lg btn-primary">Absenden</button>        
                 </form>
             </article>
             <div id="successSign" class="d-flex justify-content-center"></div>
@@ -77,6 +78,7 @@
 </body>
 
 <script> 
+    
     let url_string = window.location.href;
     let url = new URL(url_string);
     let id = url.searchParams.get("id");
@@ -87,13 +89,36 @@
     }
     else {
         console.log('ID=' + id);
+        $("#s1").prop("disabled", true);
         $("#room").text(room);
+        
+        /* Cookie auslesen */
+        $("#inputName").val(Cookies.get('name'));
+
+        /* Hinweis bei ausbleibender Eingabe */
+        $("#inputName").bind("focusout keyup", function() {
+            if($("#inputName").val() == "") {
+                $(this).addClass("is-invalid").focus();
+                $("#inputNameFeedback").show();
+                $("#s1").prop("disabled", true);
+            } else {
+                $(this).removeClass("is-invalid");
+                $("#inputNameFeedback").fadeOut("fast");
+                $("#s1").prop("disabled", false);
+            }
+        });
+
+        /* Button bestätigt */
         $("#s1").click(function (e) {
             event.preventDefault();
-            if($("#inputName").val() != "") {            
-                $("#s1").prop("disabled", true);
-                $("#inputName").prop("disabled", true);
+            if($("#inputName").val() != "") {        
                 $("#c1").prop("disabled", true);
+
+                /* Cookie schreiben */
+                if($("#c1").is(":checked")) {
+                    Cookies.set('name',$("#inputName").val(), { expires: 14 });
+                }
+                
                 $("#s1").html('<span class="spinner-border spinner-border" role="status" aria-hidden="true"></span>');
                 obj = {
                     name: $("#inputName").val(),
@@ -108,13 +133,17 @@
                     contentType: 'application/json',
                     success: function (data) {
                         console.log('data=' + JSON.stringify(data));
-                        $("#Msg").text(data.msg).addClass("success");
                         if (data.success == true) {
                             $("#formArea article").fadeOut("slow", function () {
                                 $("#successSign").html('<svg class="checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52"><circle class="checkmark__circle" cx="26" cy="26" r="25" fill="none" /><path class="checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8" /></svg>').addClass("success");
                             });
-                            //window.location.replace('/web/thanks.html');
-                            //window.location = "web/thanks.html";
+                            $("#Msg").text(data.msg).addClass("success");
+                        } else {
+                            $("#s1").prop("disabled", false);
+                            $("#inputName").prop("disabled", false);
+                            $("#c1").prop("disabled", false);
+                            $("#s1").text("Absenden");
+                            $("#Msg").text(data.msg).addClass("error");
                         }
                     },
                     error: function (xhr, ajaxOptions, thrownError) {
@@ -122,13 +151,15 @@
                         $("#inputName").prop("disabled", false);
                         $("#c1").prop("disabled", false);
                         $("#s1").text("Absenden");
-                        $("#Msg").show().text("Eintrag leider fehlgeschlagen.").addClass("error");
+                        $("#Msg").show().text("Eintrag leider fehlgeschlagen").addClass('error');
                         console.log(xhr.status);
                         console.log(thrownError);
                     }
                 });
             } else {
-                $("#Msg").show().text("Bitte Vor- und Nachname eingeben!").addClass("error");
+                $("#inputName").addClass("is-invalid").focus();
+                $("#inputNameFeedback").show();
+
             } 
         });
     }

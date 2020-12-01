@@ -73,6 +73,9 @@ body {
      height: 180px;
 }
 
+#inputNameFeedback {
+     display: none;
+}
 
 @media (min-width: 576px) {
      body {
