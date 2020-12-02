@@ -91,7 +91,10 @@
         $("#room").text(room);
 
         /* Cookie auslesen */
-        $("#inputName").val(Cookies.get('name'));
+        if(Cookies.get('name') != undefined) {
+            $("#inputName").val(Cookies.get('name'));
+            $("#c1").prop('checked', true);
+        }
         if($("#inputName").val() == "") {
             $("#s1").prop("disabled", true);
         }
@@ -103,6 +106,11 @@
                 $("#inputNameFeedback").css("visibility","visible");
                 $("#s1").prop("disabled", true);
             } else {
+                if($("#inputName").val() != Cookies.get('name')) {
+                    $("#c1").prop('checked', false);
+                } else {
+                    $("#c1").prop('checked', true);
+                }
                 $(this).removeClass("is-invalid");
                 $("#inputNameFeedback").css("visibility","hidden");
                 $("#s1").prop("disabled", false);
@@ -117,7 +125,11 @@
 
                 /* Cookie schreiben */
                 if($("#c1").is(":checked")) {
-                    Cookies.set('name',$("#inputName").val(), { expires: 14 });
+                    if($("#inputName").val() != Cookies.get('name')) {
+                        Cookies.set('name',$("#inputName").val(), { expires: 14 });
+                    }
+                } else {
+                    Cookies.remove('name');
                 }
                 
                 $("#s1").html('<span class="spinner-border spinner-border" role="status" aria-hidden="true"></span>');
