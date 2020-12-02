@@ -125,7 +125,9 @@
 
                 /* Cookie schreiben */
                 if($("#c1").is(":checked")) {
-                    Cookies.set('name',$("#inputName").val(), { expires: 14 });
+                    if($("#inputName").val() != Cookies.get('name')) {
+                        Cookies.set('name',$("#inputName").val(), { expires: 14 });
+                    }
                 } else {
                     Cookies.remove('name');
                 }
