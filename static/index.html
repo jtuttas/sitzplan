@@ -91,7 +91,10 @@
         $("#room").text(room);
 
         /* Cookie auslesen */
-        $("#inputName").val(Cookies.get('name'));
+        if(Cookies.get('name') != undefined) {
+            $("#inputName").val(Cookies.get('name'));
+            $("#c1").prop('checked', true);
+        }
         if($("#inputName").val() == "") {
             $("#s1").prop("disabled", true);
         }
@@ -118,6 +121,8 @@
                 /* Cookie schreiben */
                 if($("#c1").is(":checked")) {
                     Cookies.set('name',$("#inputName").val(), { expires: 14 });
+                } else {
+                    Cookies.remove('name');
                 }
                 
                 $("#s1").html('<span class="spinner-border spinner-border" role="status" aria-hidden="true"></span>');
