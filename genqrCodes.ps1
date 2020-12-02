@@ -14,29 +14,31 @@ $enc = [system.Text.Encoding]::UTF8
 foreach ($row in $excel) {
     $colCounter=0
     foreach ($col in $row.PSObject.Properties) {
-        
-        if ($col.Value -ne $null) {
-            $a=""+$col.Value            
-            $filename=$worksheet+"_"+$a+".jpg"
-            Write-Host "Filename = $filename for row=$rowcounter and col=$colCounter";
-            $param='{"room":"'+$worksheet+'","row":'+$rowCounter+',"col":'+$colCounter+'}';           
-            Write-Host "Parameter:$param"
-            $data1 = $enc.GetBytes($param) 
-            $endcrypt = $rsa.Encrypt($data1,$true)
-            $encString=[System.Convert]::ToBase64String($endcrypt)
-            Write-Host "RSA Encrypted: $encString"
-            $encString=$encString.Replace("+","%2B")
-            $encString=[uri]::EscapeDataString($encString)
+        # erste Zeile wird ignoriert!
+        if ($rowcounter -gt 0) {
+            if ($col.Value -ne $null) {
+                $a=""+$col.Value            
+                $filename=$worksheet+"_"+$a+".jpg"
+                Write-Host "Filename = $filename for row=$rowcounter and col=$colCounter";
+                $param='{"room":"'+$worksheet+'","row":'+$rowCounter+',"col":'+$colCounter+'}';           
+                Write-Host "Parameter:$param"
+                $data1 = $enc.GetBytes($param) 
+                $endcrypt = $rsa.Encrypt($data1,$true)
+                $encString=[System.Convert]::ToBase64String($endcrypt)
+                Write-Host "RSA Encrypted: $encString"                
+                $encString=$encString.Replace("+","%2B") # Musste eingefügt werden beim Dienst qrickit (bei Google ging es auch Ohne) 
+                $encString=[uri]::EscapeDataString($encString)
             
-            Write-Host "RSA Encrypted URL Encoded: $encString"
-            $url="http://130.61.61.100:8080/web/?id=$encString&room=$worksheet"
-            $url=[uri]::EscapeDataString($url)
+                Write-Host "RSA Encrypted URL Encoded: $encString"
+                $url="http://130.61.61.100:8080/web/?id=$encString&room=$worksheet"
+                $url=[uri]::EscapeDataString($url)
             
-            Write-Host "Get QR Code for $url"
-            #Invoke-WebRequest -Uri "https://chart.googleapis.com/chart?chs=300x300&cht=qr&chl=$url"  -OutFile $filename
-            Invoke-WebRequest -uri "https://qrickit.com/api/qr.php?d=$url&addtext=$filename&qrsize=300&t=j&e=m"  -OutFile $filename
-            # Wenn die QR Code gleich ausgedruckt werden sollen den Kommentar in der unteren Zeile löschen
-            #get-childitem $filename | ForEach-Object {Start-Process -FilePath $_.FullName -Verb Print}    
+                Write-Host "Get QR Code for $url"
+                #Invoke-WebRequest -Uri "https://chart.googleapis.com/chart?chs=300x300&cht=qr&chl=$url"  -OutFile $filename
+                Invoke-WebRequest -uri "https://qrickit.com/api/qr.php?d=$url&addtext=$filename&qrsize=300&t=j&e=m"  -OutFile $filename
+                # Wenn die QR Code gleich ausgedruckt werden sollen den Kommentar in der unteren Zeile löschen
+                #get-childitem $filename | ForEach-Object {Start-Process -FilePath $_.FullName -Verb Print}    
+            }
         }
         $colCounter++
     }
