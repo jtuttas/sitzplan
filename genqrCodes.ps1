@@ -30,7 +30,7 @@ foreach ($row in $excel) {
                 $encString=[uri]::EscapeDataString($encString)
             
                 Write-Host "RSA Encrypted URL Encoded: $encString"
-                $url="http://130.61.61.100:8080/web/?id=$encString&room=$worksheet"
+                $url="http://splan.joerg-tuttas.de/web/?id=$encString&room=$worksheet"
                 $url=[uri]::EscapeDataString($url)
             
                 Write-Host "Get QR Code for $url"
