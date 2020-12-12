@@ -1,4 +1,5 @@
 # Auto Sitzplan
+![PRBild](PRBild.jpg)
 ## Voraussetzungen
 Folgende Dinge müssen installiert sein:
 - Node.js
