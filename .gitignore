@@ -3,3 +3,4 @@ config/secrets.json
 users.db
 .vscode/settings.json
 config/rsa.private
+*.doc
