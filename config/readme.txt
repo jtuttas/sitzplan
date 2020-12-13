@@ -1,1 +1,1 @@
-In Diesem Verzeichnis muss sich die Datei secrets.json befinden!
+In Diesem Verzeichnis muss sich die Datei secrets.json und der rsa private key befinden!
