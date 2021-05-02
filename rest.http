@@ -1,30 +1,30 @@
 ### Test without User Interaction
 # Diesen Request im Browser öffnen
-GET https://login.microsoftonline.com/common/oauth2/v2.0/authorize?client_id={{client_id}}&response_type=code&redirect_uri=https://login.live.com/oauth20_desktop.srf&response_mode=query&scope=openid%20offline_access%20Files.ReadWrite.All%20user.read%20https%3A%2F%2Fgraph.microsoft.com%2Fmail.read&state=12345 HTTP/1.1
+GET https://login.microsoftonline.com/common/oauth2/v2.0/authorize?client_id=aa088c35-e917-4c23-be9d-bd910c411532&response_type=code&redirect_uri=http://localhost&response_mode=query&scope=user.read&state=12345 HTTP/1.1
 
 ### Code einlösen
 # Im Responce zum oberen Request gibt es einen Code, den als code eintragen
 POST https://login.microsoftonline.com/common/oauth2/v2.0/token HTTP/1.1
 Content-Type: application/x-www-form-urlencoded
 
-client_id={{client_id}}
+client_id=85081bd8-fafc-4907-a8f0-b0625cb3b330
 &scope=https%3A%2F%2Fgraph.microsoft.com%2Fmail.read
-&code={{code}}
+&code=0.AR8A7CTzfvCO_kWslMg5ce9F-NgbCIX8-gdJqPCwYlyzszAfANU.AQABAAIAAABeStGSRwwnTq2vHplZ9KL4Ag0xKYAwoO5CiHrRUM_E9rBMKoC1to_9ve2k3xnA2kWFToFODTzQD7TTvfjR9-UiK1tr3Sx6nCauFkD-9hpaSYNGv78JjvJBCac6hoTjQkKtu740fIYdzTaGSBb5WeqF0dKXf_FTxCX534LkwOkXstIVG4wSShdnfguFz6ahh88kjtObUaLw0MBhZb_Ug86-6NntoLmBGZKuC1ja8ch_4bY-2H4dVCDqu5ScYytuBgkmlVzBNrEjgsUHDsJ6v2a-LcMwaWlCEnW7sjDgn7iIOQhsuGRS5ItrtdVQ20AY2W1UamersiuXjgTmvk7GiN4wfOhyapOMN8QbjQ68OnV41MV1MjbFKHtgUkgbPeqse8gUJSR26IfJxJSp2IZKwBbEzZiApdDonYJw9dE_qYXORtQ6EaQdmBSoHYhrk9MJ5zxZ7G81Lr1GHJWBs2JUUX2B6quMBzgMVpJdOKrDYrvNjjhvY6Rn-GXbq-6K-wBcUCPOERbPCDa0G1opDU389EBqVty2fzugroQccsopvZPGDsHaZaA2867uw81J2BdLfJrp8voTtA0opxY8dyKolYXH5XaooX16V34AKy18dAgZmqFkYb7shBlEJbleCRmxFA6VraUjtgh5WHkjxlx75-dkpGBAGcjgz81fuoGnLIBwiryYEn9c6qOni_u2rluSske5MT1oS1Z5luucB7WQK0Y1z8PLAlaFgxib621DfQaM3cP2Ayjg-sRknMHh7AkjqkUgAA
 &redirect_uri=https://login.live.com/oauth20_desktop.srf
 &grant_type=authorization_code
-&client_secret={{client_secret}}
+
 
 ### Refresh Token nutzen um access token zu aktualisieren
 
 POST https://login.microsoftonline.com/common/oauth2/v2.0/token HTTP/1.1
 Content-Type: application/x-www-form-urlencoded
 
-client_id={{client_id}}
+client_id=85081bd8-fafc-4907-a8f0-b0625cb3b330
 &scope=https%3A%2F%2Fgraph.microsoft.com%2Fmail.read
-&refresh_token={{refesh-token}}
+&refresh_token=0.AR8A7CTzfvCO_kWslMg5ce9F-NgbCIX8-gdJqPCwYlyzszAfANU.AgABAAAAAABeStGSRwwnTq2vHplZ9KL4AQDs_wMA9P9-odOcRpAu75eHnlviAA0Nm5mIW4EF_8K9iGE3UYt20r_cO9_32NKmmunLh3KFym_GyhxbCuaobFvoFrKO4stk72BCe_znjNHBvyaxjlp62a0JyPRGLWiPcIAiJ_y8tQNSsg3hcSF-FYRx2gOxg_NfL1hL8wWMGFvQz4-yCpKtH9yGmkRlvv_xnBoEERi6BZfqFrE-QhsmwA1jdtqaSmyB1sOLP66NSyErF7jSzk6c9nqRjMpB_M0eDhFXYZn-d9seteqPqG2gNrdf4RWKNGdEbRovVtkTnmAAH2VfBt36T91k0s1KsyCxUyR2Wxgex0_1JZeNspd_ePwbiLD0797qBGNN-pdtj9vpzguaaTZeujrySb5ZeS_wi5jMVcmnKpuPnWqsnS-mPogQPw_eyrdO7IgtX-_Mj0viirWMYrkv_CA8ANsfo_efisRr9hXYB0W9LHk57MRwGswCcLC_QkpCG1WMZPKdGag5P9IFBTJE-LNWuvU-H0IcU2o-yZZXloJCSXZI6HgC777PXdPOzvQdTwSMbkvP9QqAax8aWT0v10S6d6HpPnc179uqtqFJUegIG96vNH3jZvmZ_RIj-wkSbw5cBrTqkkAXzTALR4oDifDrwzyt5pK1-C98quQIXsyXvjrYjXu7wkwOtPOyU2Cw3fRwhKF1cOqECg5uwDhtoOgrSwf3ZK9e6CYtiFwdejhZsfcVuJMH1uS3DisaL_ipdLwq277aBFBW0Gc5B7YA2Vd0xnOGGt71QUYQ1leSojHe-rTSw5O146z8r56OKiPRWxfznT6JYCg-aAAMUGDDW6f-MO3se5QblmUJ5KzPejeWweDR8x-cphSFzq1aAaSws7UzZY8DJ8-nke4o6xlzmVrqLPyIcV9DtDm1Bwv1ICUs5bF03siL4Z3Kdcs7iqQsMG08YyLiY9hRGR40R3EDf-J3hrg
 &redirect_uri=https://login.live.com/oauth20_desktop.srf
 &grant_type=refresh_token
-&client_secret={{client_secret}}
+
 
 ### Drive ID ermitteln
 GET https://graph.microsoft.com/v1.0/me/drive HTTP/1.1
